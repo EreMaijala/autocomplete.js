@@ -75,7 +75,9 @@ function Autocomplete(_settings) {
 
     clearTimeout(debounceTimeout);
     _currentIndex = -1;
-    lastInput.setAttribute('aria-expanded', 'false');
+    if (lastInput) {
+      lastInput.setAttribute('aria-expanded', 'false');
+    }
     lastInput = false;
     lastCB = null;
   }
@@ -303,8 +305,10 @@ function Autocomplete(_settings) {
     input.setAttribute("enterkeyhint", "search"); // phone keyboard hint
     input.setAttribute("autocapitalize", "off");  // disable browser tinkering
     input.setAttribute("autocomplete", "off");    // ^
-    input.setAttribute("autocorrect", "off");     // ^
     input.setAttribute("spellcheck", "false");    // ^
+    if (typeof input.autocorrect !== 'undefined') {
+      input.setAttribute("autocorrect", "off");     // ^ only with Safari
+    }
 
     // Activation / De-activation
     if (input.getAttribute("autofocus") !== null) {
